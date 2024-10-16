@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Store Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+            margin-left: 500px;
+            margin-right: 500px;
+            margin-bottom: 50px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        img {
+            max-width: 100px;
+            margin-right: 20px;
+        }
+        .product-info {
+            max-width: 80%;
+        }
+        .product-info h3 {
+            margin: 0;
+        }
+        .price {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Products from Fake Store API</h1>
+    <div id="products-container"></div>
+
+    <script>
+        // Fetch data from the API
+        fetch('https://fakestoreapi.com/products')
+        .then(response => response.json())
+        .then(data => {
+            const productsContainer = document.getElementById('products-container');
+
+            // Iterate over the products and create HTML elements to display them
+            data.forEach(product => {
+                // Create a product container
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('product');
+
+                // Create an image element
+                const img = document.createElement('img');
+                img.src = product.image;
+                img.alt = product.title;
+
+                // Create a div for product info
+                const productInfo = document.createElement('div');
+                productInfo.classList.add('product-info');
+
+                // Create an element for the product title
+                const title = document.createElement('h3');
+                title.textContent = product.title;
+
+                // Create an element for the price
+                const price = document.createElement('p');
+                price.textContent = `$${product.price}`;
+                price.classList.add('price');
+
+                // Create an element for the product description
+                const description = document.createElement('p');
+                description.textContent = product.description;
+
+                // Append the title, price, and description to the product info
+                productInfo.appendChild(title);
+                productInfo.appendChild(price);
+                productInfo.appendChild(description);
+
+                // Append the image and product info to the product div
+                productDiv.appendChild(img);
+                productDiv.appendChild(productInfo);
+
+                // Append the product div to the container
+                productsContainer.appendChild(productDiv);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching the products:', error);
+        });
+    </script>
+</body>
+</html>
